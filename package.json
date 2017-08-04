@@ -32,7 +32,6 @@
     "bench-grandchild": "node benchmarks/runbench grandchild",
     "bench-conception": "node benchmarks/runbench conception"
   },
-  "precommit": "test",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pinojs/pino.git"
@@ -59,12 +58,12 @@
     "bole": "^3.0.2",
     "bunyan": "^1.8.5",
     "debug": "^2.5.1",
+    "egg-logger": "^1.6.0",
     "fastbench": "^1.0.0",
     "flush-write-stream": "^1.0.2",
     "fresh-require": "^1.0.3",
     "log": "^1.4.0",
     "loglevel": "^1.4.0",
-    "pre-commit": "^1.2.2",
     "proxyquire": "^1.8.0",
     "snazzy": "^7.0.0",
     "standard": "^10.0.0",

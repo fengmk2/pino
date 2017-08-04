@@ -43,6 +43,14 @@ require('bole').output({
 winston.add(winston.transports.File, { filename: '/dev/null' })
 winston.remove(winston.transports.Console)
 
+var EggLogger = require('egg-logger').Logger;
+var EggFileTransport = require('egg-logger').FileTransport;
+var eggLogger = new EggLogger();
+eggLogger.set('file', new EggFileTransport({
+  file: '/dev/null',
+  level: 'INFO',
+}));
+
 var run = bench([
   function benchBunyanMulti (cb) {
     for (var i = 0; i < max; i++) {
@@ -71,6 +79,12 @@ var run = bench([
   function benchDebugMulti (cb) {
     for (var i = 0; i < max; i++) {
       dlog('hello', 'world')
+    }
+    setImmediate(cb)
+  },
+  function benchEggLoggerMulti (cb) {
+    for (var i = 0; i < max; i++) {
+      eggLogger.info('hello', 'world')
     }
     setImmediate(cb)
   },
@@ -135,6 +149,12 @@ var run = bench([
     }
     setImmediate(cb)
   },
+  function benchEggLoggerInterpolateAll (cb) {
+    for (var i = 0; i < max; i++) {
+      eggLogger.info('hello %s %j %d', 'world', {obj: true}, 4)
+    }
+    setImmediate(cb)
+  },
   function benchPinoInterpolateAll (cb) {
     for (var i = 0; i < max; i++) {
       plog.info('hello %s %j %d', 'world', {obj: true}, 4)
@@ -177,6 +197,12 @@ var run = bench([
     }
     setImmediate(cb)
   },
+  function benchEggLoggerInterpolateExtra (cb) {
+    for (var i = 0; i < max; i++) {
+      eggLogger.info('hello %s %j %d', 'world', {obj: true}, 4, {another: 'obj'})
+    }
+    setImmediate(cb)
+  },
   function benchPinoInterpolateExtra (cb) {
     for (var i = 0; i < max; i++) {
       plog.info('hello %s %j %d', 'world', {obj: true}, 4, {another: 'obj'})
@@ -216,6 +242,12 @@ var run = bench([
   function benchBoleInterpolateDeep (cb) {
     for (var i = 0; i < max; i++) {
       bole.info('hello %j', deep)
+    }
+    setImmediate(cb)
+  },
+  function benchEggLoggerInterpolateDeep (cb) {
+    for (var i = 0; i < max; i++) {
+      eggLogger.info('hello %j', deep)
     }
     setImmediate(cb)
   },

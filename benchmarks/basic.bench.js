@@ -34,6 +34,18 @@ require('bole').output({
 winston.add(winston.transports.File, { filename: '/dev/null' })
 winston.remove(winston.transports.Console)
 
+var EggLogger = require('egg-logger').Logger;
+var EggFileTransport = require('egg-logger').FileTransport;
+var EggConsoleTransport = require('egg-logger').ConsoleTransport;
+var eggLogger = new EggLogger();
+eggLogger.set('file', new EggFileTransport({
+  file: '/dev/null',
+  level: 'INFO',
+}));
+// eggLogger.set('console', new EggConsoleTransport({
+//   level: 'INFO',
+// }));
+
 var run = bench([
   function benchBunyan (cb) {
     for (var i = 0; i < max; i++) {
@@ -62,6 +74,12 @@ var run = bench([
   function benchLogLevel (cb) {
     for (var i = 0; i < max; i++) {
       loglevel.info('hello world')
+    }
+    setImmediate(cb)
+  },
+  function benchEggLogger (cb) {
+    for (var i = 0; i < max; i++) {
+      eggLogger.info('hello world')
     }
     setImmediate(cb)
   },
